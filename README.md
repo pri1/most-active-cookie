@@ -45,4 +45,5 @@ You can execute the file using
     
      java -jar cookie-filter-0.0.1-SNAPSHOT.jar -f /path/to/cookie.csv -d 2018-12-09
 
+[Run Successful](https://imgur.com/qYY7pCl)
 
