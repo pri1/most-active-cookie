@@ -1,6 +1,7 @@
 package com.coding.task.quantcast.cookiefilter.processor.impl;
 
 import static com.coding.task.quantcast.cookiefilter.parser.CookieLogParser.parseLog;
+import static com.coding.task.quantcast.cookiefilter.utils.DisplayToTerminal.printToTerminal;
 
 import com.coding.task.quantcast.cookiefilter.parser.CommandLineInput;
 import com.coding.task.quantcast.cookiefilter.processor.CookieProcessor;
@@ -18,15 +19,13 @@ import org.springframework.retry.annotation.Retryable;
 public class CookieProcessorImpl implements CookieProcessor {
 
   @Override
-  @Retryable(value = Exception.class, maxAttemptsExpression = "3",
-      backoff = @Backoff(delayExpression = "1000"))
-  public void MostActiveCookies(CommandLineInput commandLineInput) throws Exception {
+  public void mostActiveCookies(CommandLineInput commandLineInput) throws Exception {
     log.info("File path and Date {}", commandLineInput.getFileName(),
         commandLineInput.getSelectedDate());
     CsvDataValidator.validateFileExtension(commandLineInput.getFileName());
     Map<String, Long> groupCookieByDate = parseLog(commandLineInput);
     OptionalLong mostActiveCookieFreq = mostActiveCookieFreq(groupCookieByDate);
-    mostActiveCookieFreq.ifPresent(maxFreq -> outputMostActiveCookies(groupCookieByDate, maxFreq));
+    mostActiveCookieFreq.ifPresent(maxFreq -> printToTerminal(groupCookieByDate, maxFreq));
   }
 
 
@@ -37,19 +36,4 @@ public class CookieProcessorImpl implements CookieProcessor {
     log.info("Calculate the frequency of most active cookies  {}", groupOfCookieByDate);
     return groupOfCookieByDate.values().stream().mapToLong(count -> count).max();
   }
-
-  /**
-   * Output the most active cookies to the terminal
-   */
-  private void outputMostActiveCookies(Map<String, Long> groupOfCookieByDate,
-      long mostActiveCookieFreq) {
-    log.info(
-        "Scan through the list of cookies and output the ones which have the max frequency value  {}",
-        mostActiveCookieFreq, groupOfCookieByDate);
-    groupOfCookieByDate.entrySet().stream()
-        .filter(x -> x.getValue().equals(mostActiveCookieFreq))
-        .map(Map.Entry::getKey)
-        .forEach(System.out::println);
-  }
-
 }

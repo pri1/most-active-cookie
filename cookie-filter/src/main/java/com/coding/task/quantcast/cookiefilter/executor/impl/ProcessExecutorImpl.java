@@ -25,7 +25,7 @@ public class ProcessExecutorImpl implements ProcessExecutor {
   public int executeProcess(String[] args) throws Exception {
     try {
       CommandLineInput commandLineInput = parseCommandLineInput(args);
-      cookieProcessor.MostActiveCookies(commandLineInput);
+      cookieProcessor.mostActiveCookies(commandLineInput);
       return ProcessStatus.SUCCESS.getValue();
     } catch (LogParsingException | RuntimeException e) {
       log.error("Program failed! {}", e);
