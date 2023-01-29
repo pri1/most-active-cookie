@@ -3,7 +3,7 @@ Process a cookie log and return the most active cookie for a specific day
 
 ## Tech
 
-- Java 11, Spring Boot (framework), Maven (build tool)
+- Java 8 onward, Spring Boot (framework), Maven (build tool)
 
 ## Requirements
 
@@ -69,7 +69,8 @@ java -jar target\cookie-filter-version-SNAPSHOT.jar -f csv-file-path -d selected
 - Example:
 
 ~~~
-java -jar target\cookie-filter-0.0.1-SNAPSHOT.jar -f src\logs\cookie_log.csv -d 2018-12-09
+java -jar \target\cookie-filter-0.0.1-SNAPSHOT.jar -f src\logs\cookie_log.csv -d 2018-12-09
+
 ~~~
 
 [Run Successful](https://imgur.com/a/SgEMNSm)
