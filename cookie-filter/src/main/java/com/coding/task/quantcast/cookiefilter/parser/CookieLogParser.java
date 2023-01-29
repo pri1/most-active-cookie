@@ -111,15 +111,14 @@ public class CookieLogParser {
         bottom = middle + 1;
       }
     }
-    Map<String, Long> map = new HashMap<>();
-    //if (res > 1) {
+    Map<String, Long> map;
       raf.seek(headersLength + ((res == 0 ? 0 : res - 1) * lineSize));
       raf.read(lineBuffer);
       line = new String(lineBuffer);
 
       String arr[] = line.split(",");
-
       String date;
+
       try {
         date = CsvDataValidator.dateValidation(arr[1].substring(0, arr[1].length() - 2));
       } catch (CsvException.InvalidCsvException e) {
@@ -131,12 +130,6 @@ public class CookieLogParser {
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
-   // }
-
-    if (map.isEmpty() || map.size() == 0) {
-      log.error("csv log file is empty or Input does not exist in csv file  {}", map);
-      throw new InvalidApplicationException("csv file is empty file or date is invalid");
-    }
 
     raf.close();
 
