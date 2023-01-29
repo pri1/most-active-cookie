@@ -55,7 +55,7 @@ We define the most active cookie as one seen in the log the most times during a 
 mvn clean package
 ~~~
 
-[Build Successful](https://imgur.com/FTQgUIY)
+[Build Successful](https://imgur.com/a/fCR0DIT)
 
 ## Run
 
@@ -72,4 +72,4 @@ java -jar target\cookie-filter-version-SNAPSHOT.jar -f csv-file-path -d selected
 java -jar target\cookie-filter-0.0.1-SNAPSHOT.jar -f src\logs\cookie_log.csv -d 2018-12-09
 ~~~
 
-[Run Successful](https://imgur.com/qYY7pCl)
+[Run Successful](https://imgur.com/a/SgEMNSm)
