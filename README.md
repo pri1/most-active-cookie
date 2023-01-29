@@ -34,15 +34,15 @@ If multiple cookies meet that criteria, returns all of them on separate lines.
 
 You can build the project using:
 
-    ./gradlew build
+    mvn clean package/mvn clean install
 
 Afterwards, you will find executable file at location
-
-    ./build/libs/cookie-finder-1.0-standalone.jar
+    
+   ./most-active-cookie/cookie-filter/target/cookie-filter-0.0.1-SNAPSHOT.jar
 
 You can execute the file using
 
+    
+     java -jar cookie-filter-0.0.1-SNAPSHOT.jar -f /path/to/cookie.csv -d 2018-12-09
 
-
-    java -jar cookie-filter-0.0.1-SNAPSHOT.jar.original -f /path/to/cookie.csv -d 2018-12-09
 
