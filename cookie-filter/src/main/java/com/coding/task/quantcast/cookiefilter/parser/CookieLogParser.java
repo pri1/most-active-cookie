@@ -116,7 +116,7 @@ public class CookieLogParser {
       raf.read(lineBuffer);
       line = new String(lineBuffer);
 
-      String arr[] = line.split(",");
+      String arr[] = line.split(DELIMITER);
       String date;
 
       try {
@@ -126,7 +126,7 @@ public class CookieLogParser {
       }
 
       try {
-        map = readFromFile(raf, (int) res, 44, commandLineInput.getSelectedDate().toString(), date);
+        map = readFromFile(raf, (int) res, lineSize, commandLineInput.getSelectedDate().toString(), date);
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
