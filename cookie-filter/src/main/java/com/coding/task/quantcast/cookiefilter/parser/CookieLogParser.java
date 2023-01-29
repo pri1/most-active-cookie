@@ -1,12 +1,16 @@
 package com.coding.task.quantcast.cookiefilter.parser;
 
+import static com.coding.task.quantcast.cookiefilter.constants.Constants.COOKIE;
 import static com.coding.task.quantcast.cookiefilter.constants.Constants.DATE_OPTION;
 import static com.coding.task.quantcast.cookiefilter.constants.Constants.DELIMITER;
 import static com.coding.task.quantcast.cookiefilter.constants.Constants.EXTRA_LINE;
 import static com.coding.task.quantcast.cookiefilter.constants.Constants.FILE_LOCATION_OPTION;
+import static com.coding.task.quantcast.cookiefilter.constants.Constants.MISSING_CSV_HEADER_OR_INVALID_FORMAT_ERROR_MESSAGE;
+import static com.coding.task.quantcast.cookiefilter.constants.Constants.TIMESTAMP;
 import static java.time.LocalDate.parse;
 
 import com.coding.task.quantcast.cookiefilter.exception.CsvException;
+import com.coding.task.quantcast.cookiefilter.exception.CsvException.InvalidCsvException;
 import com.coding.task.quantcast.cookiefilter.exception.LogParsingException;
 import com.coding.task.quantcast.cookiefilter.validators.CsvDataValidator;
 import java.io.FileNotFoundException;
@@ -47,15 +51,34 @@ public class CookieLogParser {
     }
     raf.seek(0);
 
-    String headers = raf.readLine();
-    headersLength = headers.length();
+    String header = raf.readLine();
 
-    if (headers != null && headersLength != 0) {
-      headersLength = headersLength + EXTRA_LINE;
+    if (header == null || header.isEmpty() || header.isEmpty()){
+      log.error("No errors, and file is empty: {}" ,  header);
+      throw new InvalidCsvException("File is empty: " + commandLineInput.getFileName());
+    }
+
+    String [] validateHeader = header.split(DELIMITER);
+
+    if (!(validateHeader[0].equals(COOKIE) && validateHeader[1].equals(TIMESTAMP))) {
+      log.error( "The csv file has no headers or incorrect format, please ensure it has the correct format");
+      throw new InvalidApplicationException(MISSING_CSV_HEADER_OR_INVALID_FORMAT_ERROR_MESSAGE);
+    }
+
+    headersLength = header.length();
+
+    if (header != null && headersLength != 0) {
+      headersLength = header.length() + EXTRA_LINE;
     }
     raf.seek(headersLength);
 
     String line = raf.readLine();
+
+    if (line == null || line.isEmpty() || line.isEmpty()){
+      log.error("No errors, and file Records are empty: {}" ,  header);
+      throw new InvalidCsvException("File Records are empty: " + commandLineInput.getFileName());
+    }
+
     lineSize = line.length();
     if (line != null && lineSize != 0) {
       lineSize = lineSize + EXTRA_LINE;
