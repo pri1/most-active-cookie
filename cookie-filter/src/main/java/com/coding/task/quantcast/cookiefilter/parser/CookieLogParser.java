@@ -46,16 +46,27 @@ public class CookieLogParser {
       throw new FileNotFoundException("Could not find file: " + commandLineInput.getFileName());
     }
     raf.seek(0);
-    headersLength = raf.readLine().length() + EXTRA_LINE;
+
+    String headers = raf.readLine();
+    headersLength = headers.length();
+
+    if (headers != null && headersLength != 0) {
+      headersLength = headersLength + EXTRA_LINE;
+    }
     raf.seek(headersLength);
-    lineSize = raf.readLine().length() + EXTRA_LINE;
-    numberOfLines = ((raf.length() - headersLength) / lineSize) + 1;
+
+    String line = raf.readLine();
+    lineSize = line.length();
+    if (line != null && lineSize != 0) {
+      lineSize = lineSize + EXTRA_LINE;
+      numberOfLines = ((raf.length() - headersLength) / lineSize) + 1;
+    }
+
     long res = 0;
     byte[] lineBuffer = new byte[lineSize];
     long bottom = 1;
     long top = numberOfLines;
     long middle;
-    String line;
     while (bottom <= top) {
       middle = bottom + (top - bottom) / 2;
       raf.seek(headersLength + ((middle - 1) * lineSize));
@@ -78,8 +89,8 @@ public class CookieLogParser {
       }
     }
     Map<String, Long> map = new HashMap<>();
-    if (res > 1) {
-      raf.seek(headersLength + ((res - 1) * lineSize));
+    //if (res > 1) {
+      raf.seek(headersLength + ((res == 0 ? 0 : res - 1) * lineSize));
       raf.read(lineBuffer);
       line = new String(lineBuffer);
 
@@ -97,7 +108,7 @@ public class CookieLogParser {
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
-    }
+   // }
 
     if (map.isEmpty() || map.size() == 0) {
       log.error("csv log file is empty or Input does not exist in csv file  {}", map);
@@ -163,9 +174,6 @@ public class CookieLogParser {
 
     while (date.trim().equals(searchValue)) {
 
-      if (position == numberOfLines + 1) {
-        break;
-      }
       randomAccessFile.seek(headersLength + ((position - 2) * size));
       byte[] bytes = new byte[lineSize];
       try {
@@ -182,6 +190,9 @@ public class CookieLogParser {
       }
 
       processRowsInMap.put(record[0], processRowsInMap.getOrDefault(record[0], 0L) + 1);
+      if (position == numberOfLines + 1) {
+        break;
+      }
       position++;
     }
     return processRowsInMap;
