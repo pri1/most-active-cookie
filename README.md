@@ -44,5 +44,5 @@ You can execute the file using
 
 
 
-    java -jar cookie-finder-1.0-standalone.jar -f /path/to/cookie.csv -d 2018-12-09
+    java -jar cookie-filter-0.0.1-SNAPSHOT.jar.original -f /path/to/cookie.csv -d 2018-12-09
 
