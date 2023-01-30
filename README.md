@@ -73,19 +73,39 @@ java -jar \target\cookie-filter-0.0.1-SNAPSHOT.jar -f src\logs\cookie_log.csv -d
 
 ~~~
 
-## perf testing result
+## Analysed performance in two steps:
 
- [perf testing1](https://imgur.com/a/vaUn62x)
- 
-- Test with Binary search get first occurence of the selected date to store only the contents of the first occurence to last occurence date.
- 
-  Total execution time taken in millis to published  1 lac records in groupCookieByDate from cookie log csv file : {}0.984 seconds
+Step 1 
+
+Y = 10^X
+
+X = 5
+
+Y = 10^5 = 100.K  
+
+File size = 4.5MB
+
+Total execution time taken in millis to published 1 lac records in groupCookieByDate from cookie log csv file : {}0.678 seconds
+
+ Total Latency  = 0.678  seconds
 
 
- [perf testing2](https://imgur.com/a/v1Z6q16)
+Step 2
 
-- Test with store the contents of the whole file
-  Total execution time taken in millis to published  1 lac records in groupCookieByDate from cookie log csv file : {}1.667 seconds
+X = 6 
+
+Y = 10^6 = 1.0M 
+File size = 45MB
+
+Total execution time taken in millis to published records in groupCookieByDate from cookie log csv file : {}2.692 seconds
+
+ Total Latency  =2.692 seconds
+
+
+For further optimisation required  for this records to reduce the latency for publishing records to groupCookieByDate using parallel processing?
+
+
+ [perf testing](https://imgur.com/a/ShG6yVd)
  
- 
+
 [Run Successful](https://imgur.com/a/7VEHvCF)
