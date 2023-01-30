@@ -107,8 +107,5 @@ For further optimisation required  for this records to reduce the latency for pu
 
  [perf testing](https://imgur.com/a/vaUn62x)
  
-- Test with Binary search get first occurence of the selected date to store only the contents of the first occurence to last occurence date.
- 
-  Total execution time taken in millis to published  1 lac records in groupCookieByDate from cookie log csv file : {}0.984 seconds
 
 [Run Successful](https://imgur.com/a/7VEHvCF)
