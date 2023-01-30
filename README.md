@@ -105,7 +105,7 @@ Total execution time taken in millis to published records in groupCookieByDate f
 For further optimisation required  for this records to reduce the latency for publishing records to groupCookieByDate using parallel processing?
 
 
- [perf testing](https://imgur.com/a/vaUn62x)
+ [perf testing](https://imgur.com/a/ShG6yVd)
  
 
 [Run Successful](https://imgur.com/a/7VEHvCF)
