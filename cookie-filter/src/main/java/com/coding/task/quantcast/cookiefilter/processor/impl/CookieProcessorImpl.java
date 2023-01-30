@@ -9,8 +9,6 @@ import com.coding.task.quantcast.cookiefilter.validators.CsvDataValidator;
 import java.util.Map;
 import java.util.OptionalLong;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Retryable;
 
 /**
  * Implementation for the interface CookieProcessor
@@ -24,16 +22,7 @@ public class CookieProcessorImpl implements CookieProcessor {
         commandLineInput.getSelectedDate());
     CsvDataValidator.validateFileExtension(commandLineInput.getFileName());
     Map<String, Long> groupCookieByDate = parseLog(commandLineInput);
-    OptionalLong mostActiveCookieFreq = mostActiveCookieFreq(groupCookieByDate);
+    OptionalLong mostActiveCookieFreq =groupCookieByDate.values().stream().mapToLong(count -> count).max();
     mostActiveCookieFreq.ifPresent(maxFreq -> printToTerminal(groupCookieByDate, maxFreq));
-  }
-
-
-  /**
-   * Return the frequency of most active cookies, which is the max values of all the occurrences
-   */
-  private OptionalLong mostActiveCookieFreq(Map<String, Long> groupOfCookieByDate) {
-    log.info("Calculate the frequency of most active cookies  {}", groupOfCookieByDate);
-    return groupOfCookieByDate.values().stream().mapToLong(count -> count).max();
   }
 }

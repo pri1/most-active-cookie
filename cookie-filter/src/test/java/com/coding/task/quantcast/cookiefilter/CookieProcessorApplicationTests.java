@@ -1,25 +1,20 @@
 package com.coding.task.quantcast.cookiefilter;
 
-import com.coding.task.quantcast.cookiefilter.exception.CsvException;
-import com.coding.task.quantcast.cookiefilter.exception.CsvException.InvalidCsvException;
-import com.coding.task.quantcast.cookiefilter.exception.LogParsingException;
+import static java.time.LocalDate.parse;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import com.coding.task.quantcast.cookiefilter.parser.CommandLineInput;
 import com.coding.task.quantcast.cookiefilter.processor.CookieProcessor;
 import com.coding.task.quantcast.cookiefilter.processor.impl.CookieProcessorImpl;
-import com.coding.task.quantcast.cookiefilter.parser.CommandLineInput;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
-
-import javax.management.InvalidApplicationException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import static java.time.LocalDate.parse;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ExtendWith(SpringExtension.class)
 class CookieProcessorApplicationTests {
