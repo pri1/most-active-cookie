@@ -73,11 +73,11 @@ java -jar \target\cookie-filter-0.0.1-SNAPSHOT.jar -f src\logs\cookie_log.csv -d
 
 ~~~
 
-## perf testing with click on link perf testing1 and perf testing2
+## perf testing result
 
  [perf testing1](https://imgur.com/a/vaUn62x)
  
-- Test with Binary search get first occurence of the selected date to store only the contents of the first occurence to before mismatched date.
+- Test with Binary search get first occurence of the selected date to store only the contents of the first occurence to last occurence date.
  
   Total execution time taken in millis to published  1 lac records in groupCookieByDate from cookie log csv file : {}0.984 seconds
 
