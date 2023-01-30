@@ -105,17 +105,10 @@ Total execution time taken in millis to published records in groupCookieByDate f
 For further optimisation required  for this records to reduce the latency for publishing records to groupCookieByDate using parallel processing?
 
 
- [perf testing1](https://imgur.com/a/vaUn62x)
+ [perf testing](https://imgur.com/a/vaUn62x)
  
 - Test with Binary search get first occurence of the selected date to store only the contents of the first occurence to last occurence date.
  
   Total execution time taken in millis to published  1 lac records in groupCookieByDate from cookie log csv file : {}0.984 seconds
 
-
- [perf testing2](https://imgur.com/a/v1Z6q16)
-
-- Test with store the contents of the whole file
-  Total execution time taken in millis to published  1 lac records in groupCookieByDate from cookie log csv file : {}1.667 seconds
- 
- 
 [Run Successful](https://imgur.com/a/7VEHvCF)
