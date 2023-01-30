@@ -13,15 +13,21 @@ public final class Constants {
   public static final String COOKIE = "cookie";
   public static final String TIMESTAMP = "timestamp";
   public static final String DATE_REGEX = "((?:19|20)[0-9][0-9])-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])";
-  public static String INPUT_FILE_PATH = "src/test/java/resources/cookieLogfile.csv";
+  public static String INPUT_FILE_PATH = "src/main/resources/cookie_log.csv";
+
+  public static String INVALID_INPUT_FILE_PATH = "src/main/resources/dummy.csv";
+
   public static final String DATE_FORMAT = "yyyy-MM-dd";
 
   public static final String DATE_TIME_FORMAT= "yyyy-MM-dd'T'HH:mm:ss+ss:ss";
 
-  public static final String ALPHA_NUMERIC = "src/test/java/resources/ValidateAlphanumericCookieLog.csv";
-
   public static final String F = "-f";
   public static final String D = "-d";
+
+  public static final String FILE = "file";
+  public static final String DATE = "date";
+
+  public static final String READ_MODE = "r";
 
   public static final int EXTRA_LINE = 2;
 

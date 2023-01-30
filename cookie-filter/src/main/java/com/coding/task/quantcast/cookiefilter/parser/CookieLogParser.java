@@ -1,11 +1,14 @@
 package com.coding.task.quantcast.cookiefilter.parser;
 
 import static com.coding.task.quantcast.cookiefilter.constants.Constants.COOKIE;
+import static com.coding.task.quantcast.cookiefilter.constants.Constants.DATE;
 import static com.coding.task.quantcast.cookiefilter.constants.Constants.DATE_OPTION;
 import static com.coding.task.quantcast.cookiefilter.constants.Constants.DELIMITER;
 import static com.coding.task.quantcast.cookiefilter.constants.Constants.EXTRA_LINE;
+import static com.coding.task.quantcast.cookiefilter.constants.Constants.FILE;
 import static com.coding.task.quantcast.cookiefilter.constants.Constants.FILE_LOCATION_OPTION;
 import static com.coding.task.quantcast.cookiefilter.constants.Constants.MISSING_CSV_HEADER_OR_INVALID_FORMAT_ERROR_MESSAGE;
+import static com.coding.task.quantcast.cookiefilter.constants.Constants.READ_MODE;
 import static com.coding.task.quantcast.cookiefilter.constants.Constants.TIMESTAMP;
 import static java.time.LocalDate.parse;
 
@@ -44,7 +47,7 @@ public class CookieLogParser {
 
     RandomAccessFile raf;
     try {
-      raf = new RandomAccessFile(commandLineInput.getFileName(), "r");
+      raf = new RandomAccessFile(commandLineInput.getFileName(), READ_MODE);
     } catch (FileNotFoundException e) {
       log.error("Exception occurred while file could not find: ");
       throw new FileNotFoundException("Could not find file: " + commandLineInput.getFileName());
@@ -67,24 +70,25 @@ public class CookieLogParser {
     long top = numberOfLines;
     res = binarySearch(commandLineInput, raf, res, lineBuffer, bottom, top);
     Map<String, Long> map;
-      raf.seek(headersLength + ((res == 0 ? 0 : res - 1) * lineSize));
-      raf.read(lineBuffer);
-      line = new String(lineBuffer);
+    raf.seek(headersLength + ((res == 0 ? 0 : res - 1) * lineSize));
+    raf.read(lineBuffer);
+    line = new String(lineBuffer);
 
-      String arr[] = line.split(DELIMITER);
-      String date;
+    String arr[] = line.split(DELIMITER);
+    String date;
 
-      try {
-        date = CsvDataValidator.dateValidation(arr[1].substring(0, arr[1].length() - 2));
-      } catch (CsvException.InvalidCsvException e) {
-        throw new RuntimeException(e);
-      }
+    try {
+      date = CsvDataValidator.dateValidation(arr[1].substring(0, arr[1].length() - 2));
+    } catch (CsvException.InvalidCsvException e) {
+      throw new RuntimeException(e);
+    }
 
-      try {
-        map = readFromFile(raf, (int) res, lineSize, commandLineInput.getSelectedDate().toString(), date);
-      } catch (Exception e) {
-        throw new RuntimeException(e);
-      }
+    try {
+      map = readFromFile(raf, (int) res, lineSize, commandLineInput.getSelectedDate().toString(),
+          date);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
 
     raf.close();
 
@@ -93,15 +97,16 @@ public class CookieLogParser {
 
   private static String validations(CommandLineInput commandLineInput, RandomAccessFile raf,
       String header) throws InvalidCsvException, InvalidApplicationException, IOException {
-    if (header == null || header.isEmpty() || header.isEmpty()){
-      log.error("No errors, and file is empty: {}" , header);
+    if (header == null || header.isEmpty() || header.isEmpty()) {
+      log.error("No errors, and file is empty: {}", header);
       throw new InvalidCsvException("File is empty: " + commandLineInput.getFileName());
     }
 
-    String [] validateHeader = header.split(DELIMITER);
+    String[] validateHeader = header.split(DELIMITER);
 
     if (!(validateHeader[0].equals(COOKIE) && validateHeader[1].equals(TIMESTAMP))) {
-      log.error( "The csv file has no headers or incorrect format, please ensure it has the correct format");
+      log.error(
+          "The csv file has no headers or incorrect format, please ensure it has the correct format");
       throw new InvalidApplicationException(MISSING_CSV_HEADER_OR_INVALID_FORMAT_ERROR_MESSAGE);
     }
 
@@ -114,14 +119,15 @@ public class CookieLogParser {
 
     String line = raf.readLine();
 
-    if (line == null || line.isEmpty() || line.isEmpty()){
-      log.error("No errors, and file Records are empty: {}" , header);
+    if (line == null || line.isEmpty() || line.isEmpty()) {
+      log.error("No errors, and file Records are empty: {}", header);
       throw new InvalidCsvException("File Records are empty: " + commandLineInput.getFileName());
     }
     return line;
   }
 
-  private static long binarySearch(CommandLineInput commandLineInput, RandomAccessFile raf, long res,
+  private static long binarySearch(CommandLineInput commandLineInput, RandomAccessFile raf,
+      long res,
       byte[] lineBuffer, long bottom, long top) throws IOException, InvalidCsvException {
     String line;
     long middle;
@@ -159,14 +165,14 @@ public class CookieLogParser {
 
     try {
       CommandLine commandLine = commandLineParser.parse(options, args);
-      return new CommandLineInput(commandLine.getOptionValue("file"),
-          parse(commandLine.getOptionValue("date")));
+      return new CommandLineInput(commandLine.getOptionValue(FILE),
+          parse(commandLine.getOptionValue(DATE)));
     } catch (ParseException e) {
       log.error(
           "A filepath argument is required. Use -f flag with filename and -d flag with date{}",
           e.getMessage());
       outputCommandHelp(options);
-      throw new LogParsingException(e);
+      throw new LogParsingException(e, e.getMessage());
     }
   }
 
@@ -176,12 +182,12 @@ public class CookieLogParser {
   public static Options parseCommandOption() {
     Options commandOptions = new Options();
 
-    Option fileName = new Option(FILE_LOCATION_OPTION, "file", true, "The path of cookie log file");
+    Option fileName = new Option(FILE_LOCATION_OPTION, FILE, true, "The path of cookie log file");
     fileName.setRequired(true);
     commandOptions.addOption(fileName);
 
     Option selectedDate =
-        new Option(DATE_OPTION, "date", true, "The specific date to get most active cookie");
+        new Option(DATE_OPTION, DATE, true, "The specific date to get most active cookie");
     selectedDate.setRequired(true);
     commandOptions.addOption(selectedDate);
     return commandOptions;

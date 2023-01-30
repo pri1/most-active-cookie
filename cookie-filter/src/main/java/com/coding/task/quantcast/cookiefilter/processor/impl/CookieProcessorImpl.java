@@ -1,13 +1,11 @@
 package com.coding.task.quantcast.cookiefilter.processor.impl;
 
 import static com.coding.task.quantcast.cookiefilter.parser.CookieLogParser.parseLog;
-import static com.coding.task.quantcast.cookiefilter.utils.DisplayToTerminal.printToTerminal;
 
 import com.coding.task.quantcast.cookiefilter.parser.CommandLineInput;
 import com.coding.task.quantcast.cookiefilter.processor.CookieProcessor;
 import com.coding.task.quantcast.cookiefilter.validators.CsvDataValidator;
 import java.util.Map;
-import java.util.OptionalLong;
 import lombok.extern.log4j.Log4j2;
 
 /**

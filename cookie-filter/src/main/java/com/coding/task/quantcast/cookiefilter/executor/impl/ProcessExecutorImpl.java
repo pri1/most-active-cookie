@@ -27,11 +27,16 @@ public class ProcessExecutorImpl implements ProcessExecutor {
   @Override
   public int executeProcess(String[] args) throws Exception {
     try {
+      long start = System.currentTimeMillis();
       CommandLineInput commandLineInput = parseCommandLineInput(args);
-
       Map<String, Long> groupCookieByDate = cookieProcessor.mostActiveCookies(commandLineInput);
-      OptionalLong mostActiveCookieFreq =groupCookieByDate.values().stream().mapToLong(count -> count).max();
+      log.info("Calculate the frequency of most active cookies  {}", groupCookieByDate);
+      OptionalLong mostActiveCookieFreq = groupCookieByDate.values().stream()
+          .mapToLong(count -> count).max();
       mostActiveCookieFreq.ifPresent(maxFreq -> printToTerminal(groupCookieByDate, maxFreq));
+      log.info("Total execution time taken in millis to published " + " " + "1Lac "
+          + "records in groupCookieByDate from cookie log csv file : {}"
+          + +(System.currentTimeMillis() - start) / 1000f + " seconds");
       return ProcessStatus.SUCCESS.getValue();
     } catch (LogParsingException | RuntimeException e) {
       log.error("Program failed! {}", e);
