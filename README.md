@@ -75,7 +75,7 @@ java -jar \target\cookie-filter-0.0.1-SNAPSHOT.jar -f src\logs\cookie_log.csv -d
 
 ## Analysed performance in two steps:
 
-Step 1 
+## Step 1 
 
 Y = 10^X
 
@@ -90,7 +90,7 @@ Total execution time taken in millis to published 1 lac records in groupCookieBy
  Total Latency  = 0.678  seconds
 
 
-Step 2
+## Step 2
 
 X = 6 
 
