@@ -1,27 +1,19 @@
 package com.coding.task.quantcast.cookiefilter.validators;
 
+import static com.coding.task.quantcast.cookiefilter.constants.Constants.DATE_FORMAT;
+import static com.coding.task.quantcast.cookiefilter.constants.Constants.DATE_TIME_FORMAT;
+
 import com.coding.task.quantcast.cookiefilter.constants.Constants;
 import com.coding.task.quantcast.cookiefilter.exception.CsvException;
-import com.coding.task.quantcast.cookiefilter.exception.CsvException.InvalidCsvException;
-import com.coding.task.quantcast.cookiefilter.parser.CommandLineInput;
-import javax.management.InvalidApplicationException;
-import lombok.extern.log4j.Log4j2;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static com.coding.task.quantcast.cookiefilter.constants.Constants.COOKIE;
-import static com.coding.task.quantcast.cookiefilter.constants.Constants.DATE_FORMAT;
-import static com.coding.task.quantcast.cookiefilter.constants.Constants.DATE_TIME_FORMAT;
-import static com.coding.task.quantcast.cookiefilter.constants.Constants.DELIMITER;
-import static com.coding.task.quantcast.cookiefilter.constants.Constants.MISSING_CSV_HEADER_OR_INVALID_FORMAT_ERROR_MESSAGE;
-import static com.coding.task.quantcast.cookiefilter.constants.Constants.TIMESTAMP;
+import lombok.extern.log4j.Log4j2;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Log4j2
 public class CsvDataValidator {
