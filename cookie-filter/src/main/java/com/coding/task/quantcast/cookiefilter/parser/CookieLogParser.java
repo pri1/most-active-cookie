@@ -53,31 +53,7 @@ public class CookieLogParser {
 
     String header = raf.readLine();
 
-    if (header == null || header.isEmpty() || header.isEmpty()){
-      log.error("No errors, and file is empty: {}" ,  header);
-      throw new InvalidCsvException("File is empty: " + commandLineInput.getFileName());
-    }
-
-    String [] validateHeader = header.split(DELIMITER);
-
-    if (!(validateHeader[0].equals(COOKIE) && validateHeader[1].equals(TIMESTAMP))) {
-      log.error( "The csv file has no headers or incorrect format, please ensure it has the correct format");
-      throw new InvalidApplicationException(MISSING_CSV_HEADER_OR_INVALID_FORMAT_ERROR_MESSAGE);
-    }
-
-    headersLength = header.length();
-
-    if (header != null && headersLength != 0) {
-      headersLength = header.length() + EXTRA_LINE;
-    }
-    raf.seek(headersLength);
-
-    String line = raf.readLine();
-
-    if (line == null || line.isEmpty() || line.isEmpty()){
-      log.error("No errors, and file Records are empty: {}" ,  header);
-      throw new InvalidCsvException("File Records are empty: " + commandLineInput.getFileName());
-    }
+    String line = validations(commandLineInput, raf, header);
 
     lineSize = line.length();
     if (line != null && lineSize != 0) {
@@ -89,28 +65,7 @@ public class CookieLogParser {
     byte[] lineBuffer = new byte[lineSize];
     long bottom = 1;
     long top = numberOfLines;
-    long middle;
-    while (bottom <= top) {
-      middle = bottom + (top - bottom) / 2;
-      raf.seek(headersLength + ((middle - 1) * lineSize));
-      raf.read(lineBuffer);
-      line = new String(lineBuffer);
-
-      String records[] = line.split(DELIMITER);
-
-      String date = CsvDataValidator.dateValidation(
-          records[1].substring(0, records[1].length() - 2));
-
-      int comparison = date.compareTo(commandLineInput.getSelectedDate().toString());
-      if (comparison == 0) {
-        res = middle + 1;
-        top = middle - 1;
-      } else if (comparison < 0) {
-        top = middle - 1;
-      } else {
-        bottom = middle + 1;
-      }
-    }
+    res = binarySearch(commandLineInput, raf, res, lineBuffer, bottom, top);
     Map<String, Long> map;
       raf.seek(headersLength + ((res == 0 ? 0 : res - 1) * lineSize));
       raf.read(lineBuffer);
@@ -134,6 +89,64 @@ public class CookieLogParser {
     raf.close();
 
     return map;
+  }
+
+  private static String validations(CommandLineInput commandLineInput, RandomAccessFile raf,
+      String header) throws InvalidCsvException, InvalidApplicationException, IOException {
+    if (header == null || header.isEmpty() || header.isEmpty()){
+      log.error("No errors, and file is empty: {}" , header);
+      throw new InvalidCsvException("File is empty: " + commandLineInput.getFileName());
+    }
+
+    String [] validateHeader = header.split(DELIMITER);
+
+    if (!(validateHeader[0].equals(COOKIE) && validateHeader[1].equals(TIMESTAMP))) {
+      log.error( "The csv file has no headers or incorrect format, please ensure it has the correct format");
+      throw new InvalidApplicationException(MISSING_CSV_HEADER_OR_INVALID_FORMAT_ERROR_MESSAGE);
+    }
+
+    headersLength = header.length();
+
+    if (header != null && headersLength != 0) {
+      headersLength = header.length() + EXTRA_LINE;
+    }
+    raf.seek(headersLength);
+
+    String line = raf.readLine();
+
+    if (line == null || line.isEmpty() || line.isEmpty()){
+      log.error("No errors, and file Records are empty: {}" , header);
+      throw new InvalidCsvException("File Records are empty: " + commandLineInput.getFileName());
+    }
+    return line;
+  }
+
+  private static long binarySearch(CommandLineInput commandLineInput, RandomAccessFile raf, long res,
+      byte[] lineBuffer, long bottom, long top) throws IOException, InvalidCsvException {
+    String line;
+    long middle;
+    while (bottom <= top) {
+      middle = bottom + (top - bottom) / 2;
+      raf.seek(headersLength + ((middle - 1) * lineSize));
+      raf.read(lineBuffer);
+      line = new String(lineBuffer);
+
+      String records[] = line.split(DELIMITER);
+
+      String date = CsvDataValidator.dateValidation(
+          records[1].substring(0, records[1].length() - 2));
+
+      int comparison = date.compareTo(commandLineInput.getSelectedDate().toString());
+      if (comparison == 0) {
+        res = middle + 1;
+        top = middle - 1;
+      } else if (comparison < 0) {
+        top = middle - 1;
+      } else {
+        bottom = middle + 1;
+      }
+    }
+    return res;
   }
 
   /**
