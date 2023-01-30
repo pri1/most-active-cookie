@@ -21,22 +21,17 @@ public final class Constants {
 
   public static final String DATE_TIME_FORMAT= "yyyy-MM-dd'T'HH:mm:ss+ss:ss";
 
-  public static final String F = "-f";
-  public static final String D = "-d";
-
   public static final String FILE = "file";
   public static final String DATE = "date";
-
-  public static final String READ_MODE = "r";
-
-  public static final int EXTRA_LINE = 2;
-
-  public static final String UNREACHABLE = "Unreachable.";
 
   public static final String FILE_LOCATION_OPTION = "f";
   public static final String DATE_OPTION = "d";
 
   public static final String DELIMITER = ",";
+
+  public static final int POS_ZERO = 0;
+  public static final int POS_ONE = 1;
+
 
   private Constants() {
   }

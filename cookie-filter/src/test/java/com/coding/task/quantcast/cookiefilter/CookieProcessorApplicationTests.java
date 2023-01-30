@@ -5,6 +5,7 @@ import static com.coding.task.quantcast.cookiefilter.constants.Constants.INVALID
 import static java.time.LocalDate.parse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.coding.task.quantcast.cookiefilter.parser.CommandLineInput;
 import com.coding.task.quantcast.cookiefilter.processor.CookieProcessor;
@@ -12,6 +13,7 @@ import com.coding.task.quantcast.cookiefilter.processor.impl.CookieProcessorImpl
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.util.Map;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -81,7 +83,7 @@ class CookieProcessorApplicationTests {
   @Test
   public void filterMostActiveCookies_InvalidDate_ThrowException() throws Exception {
     CommandLineInput commandInput = new CommandLineInput(INPUT_FILE_PATH, parse("2021-12-09"));
-    cookieFilter.mostActiveCookies(commandInput);
-    assertThat(byteArrayOutputStream.toString().isEmpty());
+    Map<String, Long> map = cookieFilter.mostActiveCookies(commandInput);
+    assertEquals(map.size(), 0);
   }
 }

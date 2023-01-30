@@ -19,7 +19,9 @@ public class CookieProcessorImpl implements CookieProcessor {
     log.info("File path and Date {}", commandLineInput.getFileName(),
         commandLineInput.getSelectedDate());
     CsvDataValidator.validateFileExtension(commandLineInput.getFileName());
+
     return parseLog(commandLineInput);
+
 
   }
 }

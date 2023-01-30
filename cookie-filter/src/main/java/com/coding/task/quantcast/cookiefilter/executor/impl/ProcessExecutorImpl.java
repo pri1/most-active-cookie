@@ -34,7 +34,7 @@ public class ProcessExecutorImpl implements ProcessExecutor {
       OptionalLong mostActiveCookieFreq = groupCookieByDate.values().stream()
           .mapToLong(count -> count).max();
       mostActiveCookieFreq.ifPresent(maxFreq -> printToTerminal(groupCookieByDate, maxFreq));
-      log.info("Total execution time taken in millis to published " + " " + "1Lac "
+      log.info("Total execution time taken in millis to published " + " "
           + "records in groupCookieByDate from cookie log csv file : {}"
           + +(System.currentTimeMillis() - start) / 1000f + " seconds");
       return ProcessStatus.SUCCESS.getValue();
