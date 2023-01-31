@@ -73,11 +73,11 @@ java -jar \target\cookie-filter-0.0.1-SNAPSHOT.jar -f src\logs\cookie_log.csv -d
 
 ~~~
 
-## Analysed performance in two steps:
-
-## Step 1 
+## Analysed performance :
 
 Y = 10^X
+
+## Step 1 
 
 X = 5
 
